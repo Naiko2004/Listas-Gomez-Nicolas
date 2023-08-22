@@ -1,122 +1,304 @@
-#ifndef U02_LISTAS_LISTA_LISTA_H_
-#define U02_LISTAS_LISTA_LISTA_H_
+//
+// Created by nico on 15/08/23.
+//
 
-/**
- * Clase que implementa una Lista Enlasada generica, ya que puede
- * almacenar cualquier tipo de dato T
- * @tparam T cualquier tipo de dato
- */
-template <class T> class Lista {
+#ifndef LISTAS_LISTA_H
+#define LISTAS_LISTA_H
+
+#include <iostream>
+#include "nodo.h"
+
+template <class T>
+class lista {
 private:
+    nodo<T> *inicio;
 public:
-  Lista();
+    lista();
+    ~lista();
+    lista(const lista<T> &li);
 
-  Lista(const Lista<T> &li);
+    bool esVacia();
+    int getTamanio();
 
-  ~Lista();
+    void insertar(int pos, T dato);
+    void insertarPrimero(T dato);
+    void insertarUltimo(T dato);
+    void insertAfter2(T oldValue, T newValue);
+    void fnInvertir();
 
-  bool esVacia();
+    void eliminar(int pos);
+    void reemplazar(int pos, T dato);
+    void vaciar();
 
-  int getTamanio();
+    T getDato(int pos);
 
-  void insertar(int pos, T dato);
-
-  void insertarPrimero(T dato);
-
-  void insertarUltimo(T dato);
-
-  void remover(int pos);
-
-  T getDato(int pos);
-
-  void reemplazar(int pos, T dato);
-
-  void vaciar();
+    void imprimir();
 };
 
-/**
- * Constructor de la clase Lista
- * @tparam T
- */
-template <class T> Lista<T>::Lista() {}
+template<class T>
+void lista<T>::insertAfter2(T oldValue, T newValue) {
 
-/**
- * Constructor por copia de la clase Lista
- * @tparam T
- * @param li
- */
-template <class T> Lista<T>::Lista(const Lista<T> &li) {}
+    if(inicio == nullptr)
+    {
+        return;
+    }
 
-/**
- * Destructor de la clase Lista, se encarga de liberar la memoria de todos los
- * nodos utilizados en la lista
- * @tparam T
- */
-template <class T> Lista<T>::~Lista() {}
+    nodo<T> *aux = inicio;
+    int contOldValue = 0;
 
-/**
- * Metodo para saber si la lista esta vacia
- * @tparam T
- * @return true si la lista esta vacia, sino false
- */
-template <class T> bool Lista<T>::esVacia() { return false; }
+    while(aux != nullptr)
+    {
+        if(aux->getDato() == oldValue)
+        {
+            contOldValue++;
+        }
+        if(contOldValue == 2)
+        {
+            break;
+        }
+        aux = aux->getSig();
+    }
 
-/**
- * Metodo para obtener la cantidad de nodos de la lista
- * @tparam T
- * @return la cantidad de nodos de la lista
- */
-template <class T> int Lista<T>::getTamanio() {}
+    if(aux == nullptr)
+    {
+        throw 404;
+    }
 
-/**
- * Inserta un nodo con el dato en la posicion pos
- * @tparam T
- * @param pos lugar donde será insertado el dato
- * @param dato  dato a insertar
- */
-template <class T> void Lista<T>::insertar(int pos, T dato) {}
+    nodo<T> *nuevo = new nodo<T>;
+    nuevo->setDato(newValue);
+    nuevo->setSig(aux->getSig());
 
-/**
- * Inserta un nodo con el dato en la primera posicion
- * @tparam T
- * @param dato dato a insertar
- */
-template <class T> void Lista<T>::insertarPrimero(T dato) {}
+    aux->setSig(nuevo);
 
-/**
- * Inserta un nodo con el dato en la ultima posicion
- * @tparam T
- * @param dato dato a insertar
- */
-template <class T> void Lista<T>::insertarUltimo(T dato) {}
+}
 
-/**
- * Elimina el nodo en la posicion 'pos' de la lista enlasada
- * @tparam T
- * @param pos posicion del nodo a eliminar
- */
-template <class T> void Lista<T>::remover(int pos) {}
+template<class T>
+void lista<T>::fnInvertir() {
 
-/**
- * Obtener el dato del nodo en la posicion pos
- * @tparam T
- * @param pos posicion del dato
- * @return dato almacenado en el nodo
- */
-template <class T> T Lista<T>::getDato(int pos) {}
+    if(inicio == nullptr)
+    {
+        return;
+    }
 
-/**
- * Reemplaza el dato almacenado en un nodo por este otro
- * @tparam T
- * @param pos posicion donde se desea reemplazar
- * @param dato nuevo dato a almacenar
- */
-template <class T> void Lista<T>::reemplazar(int pos, T dato) {}
+    nodo<T> *aux = inicio;
+    nodo<T> *anterior = nullptr;
+    nodo<T> *siguiente = inicio;
 
-/**
- * Función que vacia la lista enlazada
- * @tparam T
- */
-template <class T> void Lista<T>::vaciar() {}
+    siguiente = siguiente->getSig();
 
-#endif // U02_LISTAS_LISTA_LISTA_H_
+    while(siguiente != nullptr)
+    {
+
+        aux->setSig(anterior);
+
+        anterior = aux;
+        aux = siguiente;
+        siguiente = siguiente->getSig();
+
+    }
+    aux->setSig(anterior);
+    inicio = aux;
+}
+
+template<class T>
+void lista<T>::imprimir() {
+    nodo<T> *aux = inicio;
+    while(aux != nullptr)
+    {
+        std::cout<< aux->getDato() << "->";
+        aux = aux->getSig();
+    }
+    std::cout << "NULL"<<std::endl;
+}
+
+template<class T>
+void lista<T>::vaciar() {
+    nodo<T> *aux = inicio, *aBorrar;
+
+    while(aux != nullptr)
+    {
+        aBorrar = aux;
+        aux = aux->getSig();
+        delete aBorrar;
+    }
+
+    inicio = nullptr;
+}
+
+template<class T>
+void lista<T>::reemplazar(int pos, T dato) {
+
+    nodo<T> *aux = inicio;
+    int posActual = 0;
+
+
+    while((aux != nullptr) && (posActual != pos))
+    {
+        aux = aux->getSig();
+        posActual++;
+    }
+
+    if(aux == nullptr)
+    {
+        throw 400;
+    }
+
+    aux->setDato(dato);
+}
+
+template<class T>
+T lista<T>::getDato(int pos) {
+
+    nodo<T> *aux = inicio;
+    int posActual = 0;
+
+
+    while((aux != nullptr) && (posActual != pos))
+    {
+        aux = aux->getSig();
+        posActual++;
+    }
+
+    if(aux == nullptr)
+    {
+        throw 400;
+    }
+
+    return aux->getDato();
+}
+
+template<class T>
+void lista<T>::eliminar(int pos) {
+    nodo<T> *aux = inicio,
+            *aBorrar;
+    int posActual = 0;
+
+    if(pos == 0)
+    {
+        inicio = inicio->getSig();
+        delete aux;
+        return;
+    }
+
+    while( (aux != nullptr) && (posActual != pos-1))
+    {
+        aux = aux->getSig();
+        posActual++;
+    }
+
+    if(aux == nullptr)
+    {
+        throw 400;
+    }
+
+    aBorrar = aux->getSig();
+
+    aux->setSig(aBorrar->getSig());
+    delete aBorrar;
+
+}
+
+template<class T>
+void lista<T>::insertarUltimo(T dato) {
+
+    nodo<T> *nuevo = new nodo<T>;
+    nuevo->setDato(dato);
+    nodo<T> *aux = inicio;
+
+    if(aux == nullptr)
+    {
+        nuevo->setSig(nullptr);
+        inicio=nuevo;
+        return;
+    }
+
+    while(aux->getSig() != nullptr)
+    {
+        aux = aux->getSig();
+    }
+
+    nuevo->setSig(nullptr);
+    aux->setSig(nuevo);
+
+}
+
+template<class T>
+void lista<T>::insertarPrimero(T dato) {
+
+    nodo<T> *nuevo = new nodo<T>;
+    nuevo->setDato(dato);
+    nuevo->setSig(inicio);
+    inicio = nuevo;
+
+}
+
+template<class T>
+void lista<T>::insertar(int pos, T dato) {
+
+    nodo<T> *nuevo = new nodo<T>;
+    nuevo->setDato(dato);
+
+    if(pos == 0)
+    {
+        nuevo->setSig(inicio);
+        inicio = nuevo;
+        return;
+    }
+
+    nodo<T> *aux = inicio;
+    int posActual = 0;
+
+
+    while( (aux != nullptr) && (posActual != pos-1))
+    {
+        aux = aux->getSig();
+        posActual++;
+    }
+
+    if(aux == nullptr)
+    {
+        throw 400;
+    }
+
+    nuevo->setSig(aux->getSig());
+    aux->setSig(nuevo);
+
+}
+
+template<class T>
+int lista<T>::getTamanio() {
+    nodo<T> *aux = inicio;
+    int tam = 0;
+
+    while(aux != nullptr)
+    {
+        tam++;
+        aux = aux->getSig();
+    }
+
+    return tam;
+}
+
+template<class T>
+bool lista<T>::esVacia() {
+    return inicio == nullptr;
+}
+
+template<class T>
+lista<T>::~lista() {
+    vaciar();
+    delete inicio;
+}
+
+template<class T>
+lista<T>::lista(const lista<T> &li) {
+    inicio = li.inicio;
+}
+
+template<class T>
+lista<T>::lista() {
+    inicio = nullptr;
+}
+
+
+#endif //LISTAS_LISTA_H

@@ -1,0 +1,8 @@
+/home/nico/OneDrive/Facu/2do año/Programacion 3/U2/Listas-Gomez-Nicolas/cmake-build-debug/CMakeFiles/U02-E01.dir
+/home/nico/OneDrive/Facu/2do año/Programacion 3/U2/Listas-Gomez-Nicolas/cmake-build-debug/CMakeFiles/U02-E02.dir
+/home/nico/OneDrive/Facu/2do año/Programacion 3/U2/Listas-Gomez-Nicolas/cmake-build-debug/CMakeFiles/U02-E03.dir
+/home/nico/OneDrive/Facu/2do año/Programacion 3/U2/Listas-Gomez-Nicolas/cmake-build-debug/CMakeFiles/U02-E04.dir
+/home/nico/OneDrive/Facu/2do año/Programacion 3/U2/Listas-Gomez-Nicolas/cmake-build-debug/CMakeFiles/U02-E05.dir
+/home/nico/OneDrive/Facu/2do año/Programacion 3/U2/Listas-Gomez-Nicolas/cmake-build-debug/CMakeFiles/U02-E06.dir
+/home/nico/OneDrive/Facu/2do año/Programacion 3/U2/Listas-Gomez-Nicolas/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/nico/OneDrive/Facu/2do año/Programacion 3/U2/Listas-Gomez-Nicolas/cmake-build-debug/CMakeFiles/rebuild_cache.dir

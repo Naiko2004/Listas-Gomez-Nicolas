@@ -1,0 +1,3 @@
+/home/nico/OneDrive/Facu/2do año/Programacion 3/Listas/cmake-build-debug/CMakeFiles/Listas.dir
+/home/nico/OneDrive/Facu/2do año/Programacion 3/Listas/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/nico/OneDrive/Facu/2do año/Programacion 3/Listas/cmake-build-debug/CMakeFiles/rebuild_cache.dir
