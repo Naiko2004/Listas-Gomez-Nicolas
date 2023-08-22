@@ -31,7 +31,7 @@ lista enlazada que es la unión de las otras dos.
 
 ## Ejercicio N°5
 
-Escriba la clase CircList para implementar una lista circular
+Escriba la clase lista para implementar una lista circular
 
 
 ## Ejercicio N°6

@@ -17,6 +17,9 @@ public:
     ~lista();
     lista(const lista<T> &li);
 
+    void setInicio(nodo<T> *_inicio);
+    nodo<T> *getInicio();
+
     bool esVacia();
     int getTamanio();
 
@@ -34,6 +37,17 @@ public:
 
     void imprimir();
 };
+
+template<class T>
+nodo<T> *lista<T>::getInicio() {
+    return inicio;
+}
+
+template<class T>
+void lista<T>::setInicio(nodo<T> *_inicio) {
+    inicio = _inicio;
+}
+
 
 template<class T>
 void lista<T>::insertAfter2(T oldValue, T newValue) {
