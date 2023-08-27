@@ -40,7 +40,7 @@ void nodo<T>::setDato(T _d) {
 
 template<class T>
 nodo<T>::nodo() {
-
+    sig = nullptr;
 }
 
 

@@ -23,6 +23,7 @@ public:
     void insertarPrimero(T dato);
     void insertarUltimo(T dato);
     void insertAfter2(T oldValue, T newValue);
+    void insertAfterN(T oldValue, T newValue, unsigned int n);
     void fnInvertir();
 
     void eliminar(int pos);
@@ -33,6 +34,47 @@ public:
 
     void imprimir();
 };
+
+template<class T>
+void CircList<T>::insertAfterN(T oldValue, T newValue, unsigned int n) {
+
+    if(inicio == nullptr)
+    {
+        throw std::runtime_error("500");
+    }
+    if(n == 0)
+    {
+        throw std::runtime_error("401");
+    }
+
+    nodo<T> *aux = inicio;
+    int contOldValue = 0;
+
+    do
+    {
+        if(aux->getDato() == oldValue)
+        {
+            contOldValue++;
+        }
+        if(contOldValue == n)
+        {
+            break;
+        }
+        aux = aux->getSig();
+    } while(aux != inicio);
+
+    if(aux == inicio && contOldValue != n)
+    {
+        throw std::runtime_error("404");
+    }
+
+    nodo<T> *nuevo = new nodo<T>;
+    nuevo->setDato(newValue);
+    nuevo->setSig(aux->getSig());
+
+    aux->setSig(nuevo);
+
+}
 
 template<class T>
 nodo<T> *CircList<T>::getInicio() {
@@ -50,13 +92,13 @@ void CircList<T>::insertAfter2(T oldValue, T newValue) {
 
     if(inicio == nullptr)
     {
-        return;
+        throw std::runtime_error("500");
     }
 
     nodo<T> *aux = inicio;
     int contOldValue = 0;
 
-    while(aux != nullptr)
+    do
     {
         if(aux->getDato() == oldValue)
         {
@@ -67,9 +109,9 @@ void CircList<T>::insertAfter2(T oldValue, T newValue) {
             break;
         }
         aux = aux->getSig();
-    }
+    } while(aux != inicio);
 
-    if(aux == nullptr)
+    if(aux == inicio && contOldValue != 2)
     {
         throw 404;
     }
@@ -85,18 +127,23 @@ void CircList<T>::insertAfter2(T oldValue, T newValue) {
 template<class T>
 void CircList<T>::fnInvertir() {
 
-    if(inicio == nullptr)
+    if(inicio == nullptr || inicio->getSig() == inicio)
     {
         return;
     }
 
     nodo<T> *aux = inicio;
-    nodo<T> *anterior = nullptr;
+    nodo<T> *anterior = inicio;
+
+    while(anterior->getSig() != inicio)
+    {
+        anterior = anterior->getSig();
+    }
     nodo<T> *siguiente = inicio;
 
     siguiente = siguiente->getSig();
 
-    while(siguiente != nullptr)
+    while(siguiente != inicio)
     {
 
         aux->setSig(anterior);
@@ -113,25 +160,26 @@ void CircList<T>::fnInvertir() {
 template<class T>
 void CircList<T>::imprimir() {
     nodo<T> *aux = inicio;
-    while(aux != nullptr)
+    while(aux->getSig() != inicio)
     {
         std::cout<< aux->getDato() << "->";
         aux = aux->getSig();
     }
-    std::cout << "NULL"<<std::endl;
+    std::cout<< aux->getDato() << "->";
+    std::cout << "START"<<std::endl;
 }
 
 template<class T>
 void CircList<T>::vaciar() {
     nodo<T> *aux = inicio, *aBorrar;
 
-    while(aux != nullptr)
+    while(aux->getSig() != inicio)
     {
         aBorrar = aux;
         aux = aux->getSig();
         delete aBorrar;
     }
-
+    delete aux;
     inicio = nullptr;
 }
 
@@ -142,13 +190,13 @@ void CircList<T>::reemplazar(int pos, T dato) {
     int posActual = 0;
 
 
-    while((aux != nullptr) && (posActual != pos))
+    while((aux != inicio || posActual == 0) && (posActual != pos))
     {
         aux = aux->getSig();
         posActual++;
     }
 
-    if(aux == nullptr)
+    if(aux == inicio && posActual != 0)
     {
         throw 400;
     }
@@ -163,13 +211,13 @@ T CircList<T>::getDato(int pos) {
     int posActual = 0;
 
 
-    while((aux != nullptr) && (posActual != pos))
+    while((aux != inicio || posActual == 0) && (posActual != pos))
     {
         aux = aux->getSig();
         posActual++;
     }
 
-    if(aux == nullptr)
+    if(aux == inicio && posActual != 0)
     {
         throw 400;
     }
@@ -185,18 +233,25 @@ void CircList<T>::eliminar(int pos) {
 
     if(pos == 0)
     {
+        aBorrar = aux;
+        while( (aux->getSig() != inicio))
+        {
+            aux = aux->getSig();
+        }
         inicio = inicio->getSig();
-        delete aux;
+        aux->setSig(inicio);
+
+        delete aBorrar;
         return;
     }
 
-    while( (aux != nullptr) && (posActual != pos-1))
+    while( (aux != inicio || posActual == 0) && (posActual != pos-1))
     {
         aux = aux->getSig();
         posActual++;
     }
 
-    if(aux == nullptr)
+    if(aux == inicio && posActual != 0 )
     {
         throw 400;
     }
@@ -242,9 +297,18 @@ void CircList<T>::insertarPrimero(T dato) {
     {
         inicio = nuevo;
         nuevo->setSig(inicio);
+        return;
     }else{
         nuevo->setSig(inicio);
+        nodo<T> *aux = inicio;
+
+        while( (aux->getSig() != inicio))
+        {
+            aux = aux->getSig();
+        }
+        aux->setSig(nuevo);
         inicio = nuevo;
+        return;
     }
 
 
@@ -265,23 +329,28 @@ void CircList<T>::insertar(int pos, T dato) {
             return;
         } else{
             nuevo->setSig(inicio);
+            nodo<T> *aux = inicio;
+
+            while( (aux->getSig() != inicio))
+            {
+                aux = aux->getSig();
+            }
+            aux->setSig(nuevo);
             inicio = nuevo;
             return;
         }
-
     }
 
     nodo<T> *aux = inicio;
     int posActual = 0;
 
-
-    while( (aux != nullptr) && (posActual != pos-1))
+    while( (aux != inicio || posActual == 0) && (posActual != pos-1))
     {
         aux = aux->getSig();
         posActual++;
     }
 
-    if(aux == nullptr)
+    if(aux == inicio && posActual != 0)
     {
         throw 400;
     }
@@ -307,7 +376,7 @@ int CircList<T>::getTamanio() {
         tam++;
         aux = aux->getSig();
     }
-
+    tam++;
     return tam;
 }
 

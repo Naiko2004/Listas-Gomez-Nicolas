@@ -14,7 +14,7 @@ int main() {
   lis.insertarUltimo(1);
   lis.insertarUltimo(7);
   lis.imprimir();
-  lis.insertAfter2(1,5);
+  lis.insertAfterN(3,5,1);
   lis.imprimir();
 
   return 0;

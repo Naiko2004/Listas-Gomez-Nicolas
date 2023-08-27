@@ -15,7 +15,7 @@ private:
 public:
     lista();
     ~lista();
-    lista(const lista<T> &li);
+    lista( lista<T> &li);
 
     void setInicio(nodo<T> *_inicio);
     nodo<T> *getInicio();
@@ -27,6 +27,7 @@ public:
     void insertarPrimero(T dato);
     void insertarUltimo(T dato);
     void insertAfter2(T oldValue, T newValue);
+    void insertAfterN(T oldValue, T newValue, unsigned int n);
     void fnInvertir();
 
     void eliminar(int pos);
@@ -37,6 +38,46 @@ public:
 
     void imprimir();
 };
+
+template<class T>
+void lista<T>::insertAfterN(T oldValue, T newValue, unsigned int n) {
+
+    if(inicio == nullptr)
+    {
+        throw std::runtime_error("500");
+    }
+    if(n == 0)
+    {
+        throw std::runtime_error("401");
+    }
+
+    nodo<T> *aux = inicio;
+    int contOldValue = 0;
+
+    while(aux != nullptr)
+    {
+        if(aux->getDato() == oldValue)
+        {
+            contOldValue++;
+        }
+        if(contOldValue == n)
+        {
+            break;
+        }
+        aux = aux->getSig();
+    }
+
+    if(aux == nullptr)
+    {
+        throw 404;
+    }
+
+    nodo<T> *nuevo = new nodo<T>;
+    nuevo->setDato(newValue);
+    nuevo->setSig(aux->getSig());
+
+    aux->setSig(nuevo);
+}
 
 template<class T>
 nodo<T> *lista<T>::getInicio() {
@@ -305,8 +346,8 @@ lista<T>::~lista() {
 }
 
 template<class T>
-lista<T>::lista(const lista<T> &li) {
-    inicio = li.inicio;
+lista<T>::lista( lista<T> &li) {
+    inicio = li.getInicio();
 }
 
 template<class T>

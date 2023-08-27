@@ -1,6 +1,6 @@
 add_executable(U02-E01 Ej-01/main.cpp Lista/Lista.h Lista/nodo.h Ej-01/fnInvierte.h)
 
-add_executable(U02-E02 Ej-02/main.cpp)
+add_executable(U02-E02 Ej-02/main.cpp Ej-02/funciones.h)
 
 add_executable(U02-E03 Ej-03/main.cpp)
 
