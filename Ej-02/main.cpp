@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-  std::cout << "Ejercicio 01/02\n" << std::endl;
+  std::cout << "Ejercicio 02/02\n" << std::endl;
 
   lista<float> l;
   int opcion;
